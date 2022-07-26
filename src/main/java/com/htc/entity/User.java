@@ -3,14 +3,14 @@ package com.htc.entity;
 import java.util.Date;
 
 public class User {
-    int userId;             //主键，用户id
-    String username;        //用户名，最多20字
-    String password;        //密码，经过加密的结果
-    String salt;            //盐值，辅助加密
-    String email;           //邮箱
-    String type;            //0普通用户，1管理员，2版主
-    String headImageUrl;    //头像图片地址
-    Date createTime;        //注册时间
+    private Integer userId;         //主键，用户id
+    private String username;        //用户名，最多20字
+    private String password;        //密码，经过加密的结果
+    private String salt;            //盐值，辅助加密
+    private String email;           //邮箱
+    private String type;            //0普通用户，1管理员，2版主
+    private String headImageUrl;    //头像图片地址
+    private Date createTime;        //注册时间
     
     @Override
     public String toString() {
