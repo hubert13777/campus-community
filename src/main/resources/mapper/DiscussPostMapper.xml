@@ -21,11 +21,24 @@
 	</sql>
 	
 	<select id="selectPostByUseridOrderByTime" resultMap="postResultMap">
-		select * from DiscussPost
-		where status!=2
-		<if test="userId!=0">and userId=#{userId}</if>
+		<!--未经优化的分页语句-->
+		<!--select * from DiscussPost-->
+		<!--where status!=2-->
+		<!--<if test="userId!=0">and userId=#{userId}</if>-->
+		<!--order by type DESC, createTime DESC-->
+		<!--limit #{offset},#{rows};-->
+
+		<!--优化后-->
+		select * from DiscussPost as p1
+		inner join(
+		    select postId from DiscussPost
+		    where status!=2
+		    <if test="userId!=0">and userId=#{userId}</if>
+				order by type DESC, createTime DESC
+		    limit #{offset},#{rows}
+		) as p2
+		where p1.postId=p2.postId
 		order by type DESC, createTime DESC
-		limit #{offset},#{rows};
 	</select>
 	
 	<select id="selectPostRowsByUserid" resultType="int">

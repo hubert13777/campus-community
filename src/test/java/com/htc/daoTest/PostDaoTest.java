@@ -31,7 +31,7 @@ public class PostDaoTest {
     
     @Test
     public void selectPostTest(){
-        List<DiscussPost> discussPosts = discussPostDao.selectPostByUseridOrderByTime(1, 0, 10);
+        List<DiscussPost> discussPosts = discussPostDao.selectPostByUseridOrderByTime(0, 0, 5);
         for(DiscussPost post:discussPosts){
             System.out.println(post);
         }

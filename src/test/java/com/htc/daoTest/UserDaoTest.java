@@ -28,12 +28,14 @@ public class UserDaoTest {
     
     @Test
     public void selectTest(){
-        User user = userDao.selectUserById(1);
-        System.out.println(user);
-        user=userDao.selectUserByUsername("zhangsan");
-        System.out.println(user);
-        user=userDao.selectUserByEmail("666@qq.com");
-        System.out.println(user);
+        // User user = userDao.selectUserById(1);
+        // System.out.println(user);
+        // user=userDao.selectUserByUsername("zhangsan");
+        // System.out.println(user);
+        // user=userDao.selectUserByEmail("666@qq.com");
+        // System.out.println(user);
+        String username=userDao.selectUsernameByUserid(1);
+        System.out.println(username);
     }
     
     @Test
