@@ -7,6 +7,7 @@ public class User {
     private String username;        //用户名，最多20字
     private String password;        //密码，经过加密的结果
     private String salt;            //盐值，辅助加密
+    private String code;            //验证码，用于邮箱校验
     private String email;           //邮箱
     private String type;            //0普通用户，1管理员，2版主
     private String headImageUrl;    //头像图片地址
@@ -24,6 +25,18 @@ public class User {
                 ", headImageUrl='" + headImageUrl + '\'' +
                 ", createTime=" + createTime +
                 '}';
+    }
+    
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+    
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
     }
     
     public int getUserId() {

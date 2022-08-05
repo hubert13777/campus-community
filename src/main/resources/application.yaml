@@ -8,6 +8,19 @@ spring:
     initialSize: 5  # 保持的最小连接数
     maxActive: 20   # 最大连接数，超过则等待
     maxWait: 10000   # 获取连接等待超时的时间
+  # 邮箱
+  mail:
+    host: smtp.163.com
+    port: 465
+    default-encoding: UTF-8
+    username: hubert137@163.com
+    password: JYPXOVWPMMKCTQTC
+    protocol: smtps  # 选择加密协议
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
 
 
 # MyBatis配置
@@ -19,5 +32,9 @@ mybatis:
 
 # 日志级别设置
 logging:
-  level:
-    root: warn
+  config: classpath:log4j2.yaml
+#  level:
+#    root: warn
+
+server:
+  port: 8081
