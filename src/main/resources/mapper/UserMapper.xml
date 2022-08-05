@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.htc.dao.UserDao">
+	<resultMap id="userResultMap" type="User">
+		<id column="userId" property="userId"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+		<result column="salt" property="salt"/>
+		<result column="email" property="email"/>
+		<result column="type" property="type"/>
+		<result column="headImageUrl" property="headImageUrl"/>
+		<result column="createTime" property="createTime"/>
+	</resultMap>
+	
+	<sql id="insert_field">
+		<!--userId自动生成，无需插入-->
+		(username,password,salt,email,type,headImageUrl,createTime)
+	</sql>
+	
+	
+	<!--statement配置-->
+	<select id="selectUserById" resultMap="userResultMap">
+		select *
+		from User
+		where userId = #{userId};
+	</select>
+	
+	<select id="selectUserByUsername" resultMap="userResultMap">
+		select *
+		from User
+		where username like #{username};
+	</select>
+	
+	<select id="selectUserByEmail" resultMap="userResultMap">
+		select *
+		from User
+		where email like #{email};
+	</select>
+	
+	<insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+		insert into User
+		<include refid="insert_field"/>
+		values (#{username},#{password},#{salt},#{email},#{type},#{headImageUrl},#{createTime});
+	</insert>
+	
+	<update id="updateHeadImage">
+		update User
+		set headImageUrl = #{url}
+		where userId = #{userId};
+	</update>
+	
+	<update id="updatePassword">
+		update User
+		set password = #{password}
+		where userId = #{userId}
+	</update>
+
+</mapper>
