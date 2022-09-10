@@ -7,6 +7,7 @@
 - **type** — 类型，0普通，1置顶
 - **status** — 状态，0正常，1精华，2拉黑
 - **createTime** — 创建时间
+- **likeCount** — 点赞数量
 - **commentCount** — 评论数量
 - **score** — 帖子的分数
 

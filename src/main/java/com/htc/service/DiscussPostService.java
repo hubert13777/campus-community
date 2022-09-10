@@ -15,7 +15,11 @@ public class DiscussPostService {
     public List<DiscussPost> getDiscussPosts(int userId,int offset,int rows){
         return discussPostDao.selectPostByUseridOrderByTime(userId,offset,rows);
     }
-    
+
+    /**
+     * @param userId 当为0时表示所有用户
+     * @return 帖子的数量
+     */
     public int getPostRows(int userId){
         return discussPostDao.selectPostRowsByUserid(userId);
     }
