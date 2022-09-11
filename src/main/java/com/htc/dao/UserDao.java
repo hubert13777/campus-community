@@ -27,4 +27,9 @@ public interface UserDao {
      * 更新密码
      */
     int updatePassword(@Param("userId") int userId, @Param("password") String password);
+
+    /**
+     * 更新用户状态
+     */
+    int updateStatus(@Param("userId") int userId,@Param("status") String status);
 }

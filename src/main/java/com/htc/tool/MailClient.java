@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 
+/**
+ * 邮件客户端
+ */
 @Component
 public class MailClient {
     private static Logger logger = LogManager.getLogger(MailClient.class);
