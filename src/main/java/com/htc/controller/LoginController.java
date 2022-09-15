@@ -131,7 +131,7 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout(@CookieValue("ticket") String ticket){
         userService.logout(ticket);
-        return "redirect:/login";
-        // return "redirect:/index";
+        // return "redirect:/login";
+        return "redirect:/index";
     }
 }

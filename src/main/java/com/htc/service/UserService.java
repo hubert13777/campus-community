@@ -182,4 +182,11 @@ public class UserService implements CommunityConstant {
     public void logout(String ticket){
         loginTicketDao.updateStatus(ticket,"1");    //改为无效状态
     }
+
+    /**
+     * 获取用户登录ticket
+     */
+    public LoginTicket getLoginTicket(String ticket){
+        return loginTicketDao.selectByTicket(ticket);
+    }
 }
