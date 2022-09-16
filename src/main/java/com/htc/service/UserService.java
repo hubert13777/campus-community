@@ -32,7 +32,7 @@ public class UserService implements CommunityConstant {
     @Autowired
     private LoginTicketDao loginTicketDao;
 
-    @Value("${community.domain}")
+    @Value("${community.path.domain}")
     private String domain;
 
     @Value("${server.servlet.context-path}")
@@ -172,21 +172,30 @@ public class UserService implements CommunityConstant {
         loginTicketDao.insertLoginTicket(loginTicket);
 
         //正常则返回ticket的值作为登录参考
-        map.put("ticket",loginTicket.getTicket());
+        map.put("ticket", loginTicket.getTicket());
         return map;
     }
 
     /**
      * 退出登录
      */
-    public void logout(String ticket){
-        loginTicketDao.updateStatus(ticket,"1");    //改为无效状态
+    public void logout(String ticket) {
+        loginTicketDao.updateStatus(ticket, "1");    //改为无效状态
     }
 
     /**
      * 获取用户登录ticket
      */
-    public LoginTicket getLoginTicket(String ticket){
+    public LoginTicket getLoginTicket(String ticket) {
         return loginTicketDao.selectByTicket(ticket);
+    }
+
+    /**
+     * 更新头像图片路径
+     *
+     * @return 1表示成功
+     */
+    public int updateHeader(int userId, String url) {
+        return userDao.updateHeadImage(userId, url);
     }
 }
