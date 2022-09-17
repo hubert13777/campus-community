@@ -1,5 +1,6 @@
 package com.htc.controller;
 
+import com.htc.annotation.LoginRequired;
 import com.htc.entity.User;
 import com.htc.service.UserService;
 import com.htc.tool.CommunityUtil;
@@ -43,6 +44,7 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @GetMapping("/setting")
     public String getSettingPage() {
         return "/site/setting";
@@ -51,6 +53,7 @@ public class UserController {
     /**
      * 上传头像文件
      */
+    @LoginRequired
     @PostMapping("/upload")
     public String uploadHeader(MultipartFile image, Model model) {
         if (image == null) {
