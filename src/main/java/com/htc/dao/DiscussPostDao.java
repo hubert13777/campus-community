@@ -25,7 +25,7 @@ public interface DiscussPostDao {
     
     /**
      * 插入一条帖子
-     * @return 返回1说明插入成功
+     * @return 修改的行数，1代表正确
      */
     int insertPost(DiscussPost discussPost);
 }
