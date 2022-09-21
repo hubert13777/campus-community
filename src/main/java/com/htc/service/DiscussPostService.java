@@ -47,4 +47,11 @@ public class DiscussPostService {
 
         return discussPostDao.insertPost(post);
     }
+
+    /**
+     * 根据帖子的id返回帖子的完整信息
+     */
+    public DiscussPost getPostByPostId(int postId){
+        return discussPostDao.selectPostByPostId(postId);
+    }
 }

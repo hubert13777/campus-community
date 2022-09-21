@@ -4,13 +4,13 @@ import com.htc.annotation.LoginRequired;
 import com.htc.entity.DiscussPost;
 import com.htc.entity.User;
 import com.htc.service.DiscussPostService;
+import com.htc.service.UserService;
 import com.htc.tool.CommunityUtil;
 import com.htc.tool.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.Date;
@@ -20,6 +20,9 @@ import java.util.Date;
 public class DiscussPostController {
     @Autowired
     private DiscussPostService discussPostService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private HostHolder hostHolder;
@@ -47,5 +50,18 @@ public class DiscussPostController {
         discussPostService.addDiscussPost(post);
 
         return CommunityUtil.getJSONString(0,"发布成功!");
+    }
+
+    @GetMapping("/detail/{postId}")
+    public String getDiscussPost(@PathVariable("postId") int postId, Model model){
+        DiscussPost post=discussPostService.getPostByPostId(postId);
+        User user = userService.getUserById(post.getUserId());
+
+        model.addAttribute("post",post);
+        model.addAttribute("user",user);
+
+        //评论之后再添加
+
+        return "/site/discuss-detail";
     }
 }

@@ -28,4 +28,9 @@ public interface DiscussPostDao {
      * @return 修改的行数，1代表正确
      */
     int insertPost(DiscussPost discussPost);
+
+    /**
+     * 根据帖子的id查询帖子详情
+     */
+    DiscussPost selectPostByPostId(int postId);
 }

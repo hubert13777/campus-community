@@ -1,57 +1,69 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--名称空间-->
 <mapper namespace="com.htc.dao.DiscussPostDao">
-	<resultMap id="postResultMap" type="DiscussPost">
-		<id column="postId" property="postId"/>
-		<result column="userId" property="userId"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="type" property="type"/>
-		<result column="status" property="status"/>
-		<result column="createTime" property="createTime"/>
-		<result column="commentCount" property="commentCount"/>
-		<result column="score" property="score"/>
-	</resultMap>
-	
-	<sql id="insert_field">
-		(userId,title,content,type,status,createTime,commentCount,score)
-	</sql>
-	
-	<select id="selectPostByUseridOrderByTime" resultMap="postResultMap">
-		<!--未经优化的分页语句-->
-		<!--select * from DiscussPost-->
-		<!--where status!=2-->
-		<!--<if test="userId!=0">and userId=#{userId}</if>-->
-		<!--order by type DESC, createTime DESC-->
-		<!--limit #{offset},#{rows};-->
-
-		<!--优化后-->
-		select * from DiscussPost as p1
-		inner join(
-		    select postId from DiscussPost
-		    <!--2代表拉黑的帖子-->
-		    where status!=2
-		    <if test="userId!=0">and userId=#{userId}</if>
-				order by type DESC, createTime DESC
-		    limit #{offset},#{rows}
-		) as p2
-		where p1.postId=p2.postId
-		<!--置顶优先，再考虑发布时间优先-->
-		order by type DESC, createTime DESC
-	</select>
-	
-	<select id="selectPostRowsByUserid" resultType="int">
-		select Count(postId) from DiscussPost
-		where status!=2
-		<if test="userId!=0">and userId=#{userId}</if>
-	</select>
-
-	<insert id="insertPost" parameterType="DiscussPost" useGeneratedKeys="true" keyProperty="postId">
-		insert into DiscussPost
-		<include refid="insert_field"/>
-		values (#{userId},#{title},#{content},#{type},#{status},#{createTime},#{commentCount},#{score});
-	</insert>
+  <resultMap id="postResultMap" type="DiscussPost">
+    <id column="postId" property="postId"/>
+    <result column="userId" property="userId"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="type" property="type"/>
+    <result column="status" property="status"/>
+    <result column="createTime" property="createTime"/>
+    <result column="commentCount" property="commentCount"/>
+    <result column="score" property="score"/>
+  </resultMap>
+  
+  <sql id="select_field">
+    postId,userId,title,content,type, status,createTime,commentCount,score
+  </sql>
+  
+  <sql id="insert_field">
+      (userId,title,content,type, status,createTime,commentCount,score)
+  </sql>
+  
+  <select id="selectPostByUseridOrderByTime" resultMap="postResultMap">
+    <!--未经优化的分页语句-->
+    <!--select * from DiscussPost-->
+    <!--where status!=2-->
+    <!--<if test="userId!=0">and userId=#{userId}</if>-->
+    <!--order by type DESC, createTime DESC-->
+    <!--limit #{offset},#{rows};-->
+    
+    <!--优化后-->
+    select *
+    from DiscussPost as p1
+    inner join(
+    select postId from DiscussPost
+    <!--2代表拉黑的帖子-->
+    where status!=2
+    <if test="userId!=0">and userId=#{userId}</if>
+    order by type DESC, createTime DESC
+    limit #{offset},#{rows}
+    ) as p2
+    where p1.postId=p2.postId
+    <!--置顶优先，再考虑发布时间优先-->
+    order by type DESC, createTime DESC
+  </select>
+  
+  <select id="selectPostRowsByUserid" resultType="int">
+    select Count(postId) from DiscussPost
+    where status!=2
+    <if test="userId!=0">and userId=#{userId}</if>
+  </select>
+  
+  <insert id="insertPost" parameterType="DiscussPost" useGeneratedKeys="true" keyProperty="postId">
+    insert into DiscussPost
+    <include refid="insert_field"/>
+    values (#{userId},#{title},#{content},#{type},#{status},#{createTime},#{commentCount},#{score});
+  </insert>
+  
+  <select id="selectPostByPostId" resultMap="postResultMap">
+    select
+    <include refid="select_field"/>
+    from DiscussPost
+    where postId=#{postId}
+  </select>
 </mapper>
