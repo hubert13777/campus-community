@@ -5,6 +5,9 @@ import com.htc.entity.DiscussPost;
 import com.htc.tool.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
@@ -16,25 +19,33 @@ public class DiscussPostService {
 
     @Autowired
     private SensitiveFilter sensitiveFilter;
-    
-    public List<DiscussPost> getDiscussPosts(int userId,int offset,int rows){
-        return discussPostDao.selectPostByUseridOrderByTime(userId,offset,rows);
+
+    /**
+     * 获取若干满足条件的帖子
+     *
+     * @param userId 用户id，若为0表示所有用户
+     * @param offset 分页用，偏移量
+     * @param rows   分页，行数
+     */
+    public List<DiscussPost> getDiscussPosts(int userId, int offset, int rows) {
+        return discussPostDao.selectPostByUseridOrderByTime(userId, offset, rows);
     }
 
     /**
      * @param userId 当为0时表示所有用户
      * @return 帖子的数量
      */
-    public int getPostRows(int userId){
+    public int getPostRows(int userId) {
         return discussPostDao.selectPostRowsByUserid(userId);
     }
 
     /**
      * 发布新帖子，已包含html标签、敏感字过滤
+     *
      * @return 1表示正常插入
      */
-    public int addDiscussPost(DiscussPost post){
-        if(post==null){
+    public int addDiscussPost(DiscussPost post) {
+        if (post == null) {
             throw new IllegalArgumentException("参数不能为空");
         }
         //去除HTML标签
@@ -51,7 +62,7 @@ public class DiscussPostService {
     /**
      * 根据帖子的id返回帖子的完整信息
      */
-    public DiscussPost getPostByPostId(int postId){
+    public DiscussPost getPostByPostId(int postId) {
         return discussPostDao.selectPostByPostId(postId);
     }
 }

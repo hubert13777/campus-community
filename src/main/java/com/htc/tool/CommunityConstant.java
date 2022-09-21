@@ -25,4 +25,14 @@ public interface CommunityConstant {
      * 记住登录状态的登录有效时长，15天
      */
     int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 15;
+
+    /**
+     * 实体类型-帖子
+     */
+    String ENTITY_TYPE_POST="1";
+
+    /**
+     * 实体类型-评论
+     */
+    String ENTITY_TYPE_COMMENT="2";
 }
