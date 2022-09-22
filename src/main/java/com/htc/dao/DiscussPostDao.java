@@ -33,4 +33,9 @@ public interface DiscussPostDao {
      * 根据帖子的id查询帖子详情
      */
     DiscussPost selectPostByPostId(int postId);
+
+    /**
+     * 修改评论数量
+     */
+    int updateCommentCount(int postId,int commentCount);
 }

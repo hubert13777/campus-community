@@ -16,4 +16,10 @@ public interface CommentDao {
      * 返回评论数量
      */
     int selectCountByEntity(String entityType,int entityId);
+
+    /**
+     * 添加新评论
+     * @return 新评论的id
+     */
+    int insertComment(Comment comment);
 }

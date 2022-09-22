@@ -42,7 +42,7 @@ public class DiscussPostService {
     /**
      * 发布新帖子，已包含html标签、敏感字过滤
      *
-     * @return 1表示正常插入
+     * @return 新帖子的postId
      */
     public int addDiscussPost(DiscussPost post) {
         if (post == null) {
@@ -64,5 +64,12 @@ public class DiscussPostService {
      */
     public DiscussPost getPostByPostId(int postId) {
         return discussPostDao.selectPostByPostId(postId);
+    }
+
+    /**
+     * 修改帖子的评论数量
+     */
+    public int updateCommentCount(int postId,int commentCount){
+        return discussPostDao.updateCommentCount(postId,commentCount);
     }
 }

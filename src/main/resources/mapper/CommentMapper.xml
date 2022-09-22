@@ -46,4 +46,10 @@
       and entity_type = #{entityType}
       and entity_id = #{entityId}
   </select>
+  
+  <insert id="insertComment" useGeneratedKeys="true" keyProperty="id" parameterType="Comment">
+    insert into Comment
+    <include refid="insert_field"/>
+    values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
+  </insert>
 </mapper>

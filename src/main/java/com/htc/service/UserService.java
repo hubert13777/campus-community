@@ -117,7 +117,7 @@ public class UserService implements CommunityConstant {
      */
     public int activation(int userId, String code) {
         User user = userDao.selectUserById(userId);
-        if (user.getStatus() == "1") {    //已经激活过了
+        if (user.getStatus().equals("1")) {    //已经激活过了
             return ACTIVATION_REPEAT;
         } else if (user.getCode().equals(code)) {
             userDao.updateStatus(userId, "1");
@@ -150,7 +150,7 @@ public class UserService implements CommunityConstant {
         if (user == null) {
             map.put("username_msg", "该账号存在!");
             return map;
-        } else if (user.getStatus() == "0") {    //未激活账号
+        } else if (user.getStatus().equals("0")) {    //未激活账号
             map.put("username_msg", "账号未激活!");
             return map;
         } else {      //检查密码是否一致

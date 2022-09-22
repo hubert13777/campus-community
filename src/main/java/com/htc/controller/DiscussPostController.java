@@ -94,23 +94,21 @@ public class DiscussPostController {
                         replyVo.put("reply", reply);
                         replyVo.put("user", userService.getUserById(reply.getUserId()));
                         //处理回复的目标
-                        if (reply.getTargetId() != 0) {
-                            User target = userService.getUserById(reply.getTargetId());
-                            replyVo.put("target", target);
-                        }
+                        User target = userService.getUserById(reply.getTargetId());
+                        replyVo.put("target", target);
                         replyVoList.add(replyVo);
                     }
                 }
                 commentVo.put("replys", replyVoList);
                 //回复数量
                 int replyCount = replyList.size();
-                commentVo.put("replyCount",replyCount);
+                commentVo.put("replyCount", replyCount);
 
                 commentVoList.add(commentVo);
             }
         }
 
-        model.addAttribute("comments",commentVoList);
+        model.addAttribute("comments", commentVoList);
 
         return "/site/discuss-detail";
     }
