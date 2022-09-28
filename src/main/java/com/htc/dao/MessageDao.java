@@ -33,4 +33,13 @@ public interface MessageDao {
      */
     int selectLetterUnreadCount(int userId, String conversationId);
 
+    /**
+     * 添加一条私信消息
+     */
+    int insertMessage(Message message);
+
+    /**
+     * 改变消息已读/未读状态
+     */
+    int updateStatus(List<Integer> ids,String status);
 }

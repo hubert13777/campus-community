@@ -2,8 +2,10 @@ package com.htc.service;
 
 import com.htc.dao.MessageDao;
 import com.htc.entity.Message;
+import com.htc.tool.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -11,6 +13,9 @@ import java.util.List;
 public class MessageService {
     @Autowired
     private MessageDao messageDao;
+
+    @Autowired
+    private SensitiveFilter sensitiveFilter;
 
     /**
      * 获取某个用户的私信列表，只返回每个会话最新的消息
@@ -46,5 +51,25 @@ public class MessageService {
      */
     public int getLetterUnreadCount(int userId, String conversationId) {
         return messageDao.selectLetterUnreadCount(userId, conversationId);
+    }
+
+    /**
+     * 添加一条私信记录
+     * @return 1说明正常
+     */
+    public int addMessage(Message message){
+        //过滤内容的敏感词
+        message.setContent(HtmlUtils.htmlEscape(message.getContent()));
+        message.setContent(sensitiveFilter.filter(message.getContent()));
+        //添加私信记录
+        return messageDao.insertMessage(message);
+    }
+
+    /**
+     * 改变私信的未读/已读状态
+     * @return 改变状态的私信条数
+     */
+    public int readMessage(List<Integer> ids){
+        return messageDao.updateStatus(ids,"1");
     }
 }

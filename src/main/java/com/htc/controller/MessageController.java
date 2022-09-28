@@ -5,17 +5,17 @@ import com.htc.entity.Page;
 import com.htc.entity.User;
 import com.htc.service.MessageService;
 import com.htc.service.UserService;
+import com.htc.tool.CommunityUtil;
 import com.htc.tool.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MessageController {
@@ -82,32 +82,64 @@ public class MessageController {
         //查询私信数据
         List<Message> letterList = messageService.getLetters(conversationId, page.getOffset(), page.getRows());
         List<Map<String, Object>> letters = new ArrayList<>();
-        if(letterList!=null){
-            for(Message message:letterList){
+        if (letterList != null) {
+            for (Message message : letterList) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("letter",message);
-                map.put("fromUser",userService.getUserById(message.getFromId()));
+                map.put("letter", message);
+                map.put("fromUser", userService.getUserById(message.getFromId()));
 
                 letters.add(map);
             }
         }
-        model.addAttribute("letters",letters);
+        model.addAttribute("letters", letters);
         //私信的对象
-        model.addAttribute("target",getLetterTarget(conversationId));
+        model.addAttribute("target", getLetterTarget(conversationId));
 
         return "/site/letter-detail";
     }
 
     //根据会话id获取私信的对象User
-    private User getLetterTarget(String conversationId){
-        String[] ids=conversationId.split("_");
-        int id0=Integer.parseInt(ids[0]);
-        int id1=Integer.parseInt(ids[1]);
+    private User getLetterTarget(String conversationId) {
+        String[] ids = conversationId.split("_");
+        int id0 = Integer.parseInt(ids[0]);
+        int id1 = Integer.parseInt(ids[1]);
 
-        if(hostHolder.getUser().getUserId()==id0){
+        if (hostHolder.getUser().getUserId() == id0) {
             return userService.getUserById(id1);
-        }else{
+        } else {
             return userService.getUserById(id0);
         }
+    }
+
+    /**
+     * 发送私信
+     *
+     * @param toName 私信的目标用户名
+     * @return
+     */
+    @PostMapping("/letter/send")
+    @ResponseBody
+    public String sendLetter(String toName, String content) {
+        User target = userService.getUserByUsername(toName);
+        if (target == null) {
+            return CommunityUtil.getJSONString(1, "目标用户不存在!");
+        }
+
+        //创建消息实例
+        Message message = new Message();
+        message.setFromId(hostHolder.getUser().getUserId());
+        message.setToId(target.getUserId());
+        if (message.getFromId() < message.getToId()) {
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        } else {
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+        message.setContent(content);
+        message.setStatus("0");
+        message.setCreateTime(new Date());
+
+        messageService.addMessage(message);
+
+        return CommunityUtil.getJSONString(0);
     }
 }
