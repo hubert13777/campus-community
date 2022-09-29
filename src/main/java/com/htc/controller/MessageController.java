@@ -97,8 +97,10 @@ public class MessageController {
 
         return "/site/letter-detail";
     }
-
-    //根据会话id获取私信的对象User
+    
+    /**
+     * 根据会话id获取私信的对象User
+     */
     private User getLetterTarget(String conversationId) {
         String[] ids = conversationId.split("_");
         int id0 = Integer.parseInt(ids[0]);
@@ -113,9 +115,7 @@ public class MessageController {
 
     /**
      * 发送私信
-     *
      * @param toName 私信的目标用户名
-     * @return
      */
     @PostMapping("/letter/send")
     @ResponseBody
@@ -139,6 +139,7 @@ public class MessageController {
         message.setCreateTime(new Date());
 
         messageService.addMessage(message);
+        //出错的情况之后再统一处理
 
         return CommunityUtil.getJSONString(0);
     }
