@@ -52,7 +52,7 @@
   <select id="selectLetters" resultMap="MessageMap">
     select *
     from Message as m1
-           inner join(
+    inner join(
       select id
       from Message
       where status != '2'
@@ -62,7 +62,7 @@
       limit #{offset},#{rows}
     ) as m2
     where m1.id = m2.id
-    order by id DESC
+    order by m1.id DESC
   </select>
   
   <select id="selectLetterCount" resultType="int">

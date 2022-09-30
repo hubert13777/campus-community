@@ -20,7 +20,7 @@ public interface MessageDao {
     /**
      * 查询某个会话包含的私信列表
      */
-    List<Message> selectLetters(String conversationId, int offset, int limit);
+    List<Message> selectLetters(String conversationId, int offset, int rows);
 
     /**
      * 查询某个会话包含的私信数量

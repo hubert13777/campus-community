@@ -80,17 +80,28 @@ public class MessageController {
         page.setRows(messageService.getLetterCount(conversationId));
 
         //查询私信数据
-        List<Message> letterList = messageService.getLetters(conversationId, page.getOffset(), page.getRows());
+        List<Message> letterList = messageService.getLetters(conversationId, page.getOffset(), page.getLimit());
         List<Map<String, Object>> letters = new ArrayList<>();
+        List<Integer> ids=new ArrayList<>();
         if (letterList != null) {
             for (Message message : letterList) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("letter", message);
                 map.put("fromUser", userService.getUserById(message.getFromId()));
+                //将未读消息放入ids
+                if(hostHolder.getUser().getUserId()==message.getToId()&&message.getStatus().equals("0")){
+                    ids.add(message.getId());
+                }
 
                 letters.add(map);
             }
         }
+
+        //改变未读消息状态
+        if(!ids.isEmpty()){
+            messageService.readMessage(ids);
+        }
+
         model.addAttribute("letters", letters);
         //私信的对象
         model.addAttribute("target", getLetterTarget(conversationId));
