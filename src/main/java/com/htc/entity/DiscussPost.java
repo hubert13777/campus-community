@@ -10,6 +10,7 @@ public class DiscussPost {
     private String type;            //类型，0普通，1置顶
     private String status;          //状态，0正常，1精华，2拉黑
     private Date createTime;        //创建时间
+    private Integer likeCount;      //点赞数量
     private Integer commentCount;   //评论数量
     private Double score;           //帖子的分数，即热度
     
@@ -84,7 +85,19 @@ public class DiscussPost {
     public void setScore(double score) {
         this.score = score;
     }
-    
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
     @Override
     public String toString() {
         return "DiscussPost{" +

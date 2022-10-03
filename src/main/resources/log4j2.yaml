@@ -6,8 +6,12 @@ Configuration:
     Property: # 缺省配置（用于开发环境）。其他环境需要在VM参数中指定，如下：
       #测试：-Dlog.level.console=warn -Dlog.level.xjj=trace
       #生产：-Dlog.level.console=warn -Dlog.level.xjj=info
-      - name: log.level.console
+      - name: log.level.root #根logger日志级别
+        value: info
+      - name: log.level.console #控制台日志级别
         value: warn
+      - name: log.level.rolling #启动日志级别
+        value: info
       - name: log.path      # 日志路径
         value: log
       - name: project.name  # 项目名
@@ -37,7 +41,7 @@ Configuration:
           pattern: ${log.pattern}
         Filters:
           ThresholdFilter:
-             - level: INFO           # 输出info及以上的日志
+             - level: ${log.level.rolling}           # 输出级别
                onMatch: ACCEPT
                onMismatch: DENY
         Policies:
@@ -79,13 +83,13 @@ Configuration:
 
   Loggers:
     Root:
-      level: INFO
+      level: ${log.level.root}
       AppenderRef:
         - ref: CONSOLE
         - ref: ROLLING_FILE
         - ref: EXCEPTION_ROLLING_FILE
     Logger:
-      - name: com.htc.dao
+      - name: com.htc.dao   #dao对应路径
         level: debug
         additivity: false
         AppenderRef:

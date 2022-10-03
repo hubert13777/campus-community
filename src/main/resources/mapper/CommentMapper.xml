@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--名称空间-->
+<mapper namespace="com.htc.dao.CommentDao">
+  <resultMap id="CommentResultMap" type="Comment">
+    <id column="id" property="id"/>
+    <result column="user_id" property="userId"/>
+    <result column="entity_type" property="entityType"/>
+    <result column="entity_id" property="entityId"/>
+    <result column="target_id" property="targetId"/>
+    <result column="content" property="content"/>
+    <result column="status" property="status"/>
+    <result column="create_time" property="createTime"/>
+  </resultMap>
+  
+  <sql id="select_field">
+    id,user_id,entity_type,entity_id,target_id,content,status,create_time
+  </sql>
+  
+  <sql id="insert_field">
+    (user_id,entity_type,entity_id,target_id,content, status,create_time)
+  </sql>
+  
+  <select id="selectCommentsByEntity" resultMap="CommentResultMap">
+    select *
+    from Comment as c1
+           inner join(
+      select id
+      from Comment
+      where status = '0'
+        and entity_type = #{entityType}
+        and entity_id = #{entityId}
+      order by create_time ASC
+      limit #{offset},#{rows}
+    ) as c2
+    where c1.id = c2.id
+    order by create_time ASC
+  </select>
+  
+  <select id="selectCountByEntity" resultType="int">
+    select COUNT(id)
+    from Comment
+    where status = '0'
+      and entity_type = #{entityType}
+      and entity_id = #{entityId}
+  </select>
+  
+  <insert id="insertComment" useGeneratedKeys="true" keyProperty="id" parameterType="Comment">
+    insert into Comment
+    <include refid="insert_field"/>
+    values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
+  </insert>
+</mapper>

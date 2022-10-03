@@ -25,7 +25,17 @@ public interface DiscussPostDao {
     
     /**
      * 插入一条帖子
-     * @return 返回1说明插入成功
+     * @return 修改的行数，1代表正确
      */
     int insertPost(DiscussPost discussPost);
+
+    /**
+     * 根据帖子的id查询帖子详情
+     */
+    DiscussPost selectPostByPostId(int postId);
+
+    /**
+     * 修改评论数量
+     */
+    int updateCommentCount(int postId,int commentCount);
 }

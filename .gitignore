@@ -34,3 +34,11 @@ build/
 
 # log文件夹
 log/
+
+# data文件夹
+data/
+
+# 配置文件
+#*.yml
+#*.yaml
+#*.properties
