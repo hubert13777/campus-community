@@ -21,7 +21,6 @@ import java.util.Map;
  */
 
 @Controller
-// @RequestMapping("/home")
 public class HomeController {
     @Autowired
     private DiscussPostService discussPostService;
@@ -49,5 +48,10 @@ public class HomeController {
         }
         model.addAttribute("discussPosts", res);
         return "/index";
+    }
+
+    @GetMapping(path = "/error")
+    public String getErrorPage(){
+        return "/error/500";
     }
 }
