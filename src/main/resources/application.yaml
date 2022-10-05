@@ -30,6 +30,11 @@ spring:
             enable: true
   thymeleaf:
     cache: false
+  # 配置Redis
+  redis:
+    database: 9  # 选择索引 9 的数据库
+    host: localhost
+    port: 6379
 
 # MyBatis配置
 mybatis:

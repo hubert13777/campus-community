@@ -16,12 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * AOP 在业务层方法调用时做统一日志记录
+ */
 @Component
 @Aspect
 public class ServiceLogAspect {
     private static final Logger logger = LogManager.getLogger(ServiceLogAspect.class);
 
-    @Pointcut("execution(* com.htc.service.*.*(..)")
+    @Pointcut("execution(* com.htc.service.*.*(..))")
     public void pointcut() {
     }
 
