@@ -2,6 +2,7 @@ package com.htc.controller;
 
 import com.htc.annotation.LoginRequired;
 import com.htc.entity.User;
+import com.htc.service.LikeService;
 import com.htc.service.UserService;
 import com.htc.tool.CommunityUtil;
 import com.htc.tool.HostHolder;
@@ -43,6 +44,9 @@ public class UserController {
 
     @Autowired
     private HostHolder hostHolder;
+
+    @Autowired
+    private LikeService likeService;
 
     @LoginRequired
     @GetMapping("/setting")
@@ -116,5 +120,21 @@ public class UserController {
                 logger.error("文件输入流关闭失败: " + e.getMessage());
             }
         }
+    }
+
+    @GetMapping(path = "/profile/{userId}")
+    public String getProfilePage(@PathVariable("userId") int userId,Model model){
+        //用户基本信息
+        User user=userService.getUserById(userId);
+        if(user==null){
+            throw new RuntimeException("该用户不存在!");
+        }
+        model.addAttribute("user",user);
+
+        //用户获赞
+        int likeCount = likeService.getUserLikeCount(userId);
+        model.addAttribute("likeCount",likeCount);
+
+        return "/site/profile";
     }
 }

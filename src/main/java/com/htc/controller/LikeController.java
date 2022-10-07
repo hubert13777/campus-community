@@ -24,10 +24,10 @@ public class LikeController {
     @PostMapping(path = "/like")
     @ResponseBody
     @LoginRequired
-    public String like(String entityType, int entityId) {
+    public String like(String entityType, int entityId,int entityUserId) {
         User user = hostHolder.getUser();
         //点赞或取消赞
-        likeService.Like(user.getUserId(), entityType, entityId);
+        likeService.Like(user.getUserId(), entityType, entityId,entityUserId);
         //返回赞的数量
         Long likeCount = likeService.getLikeCount(entityType, entityId);
         //获取赞的状态
