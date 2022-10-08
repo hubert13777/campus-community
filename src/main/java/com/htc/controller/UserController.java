@@ -2,8 +2,10 @@ package com.htc.controller;
 
 import com.htc.annotation.LoginRequired;
 import com.htc.entity.User;
+import com.htc.service.FollowService;
 import com.htc.service.LikeService;
 import com.htc.service.UserService;
+import com.htc.tool.CommunityConstant;
 import com.htc.tool.CommunityUtil;
 import com.htc.tool.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +50,9 @@ public class UserController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private FollowService followService;
+
     @LoginRequired
     @GetMapping("/setting")
     public String getSettingPage() {
@@ -72,8 +77,8 @@ public class UserController {
             return "/site/setting";
         }
         //存入指定路径
-        File folder=new File(uploadPath);
-        if(!folder.exists()&&!folder.isDirectory()){    //确保文件夹存在
+        File folder = new File(uploadPath);
+        if (!folder.exists() && !folder.isDirectory()) {    //确保文件夹存在
             folder.mkdirs();
         }
 
@@ -122,18 +127,33 @@ public class UserController {
         }
     }
 
+    //个人主页
     @GetMapping(path = "/profile/{userId}")
-    public String getProfilePage(@PathVariable("userId") int userId,Model model){
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
         //用户基本信息
-        User user=userService.getUserById(userId);
-        if(user==null){
+        User user = userService.getUserById(userId);
+        if (user == null) {
             throw new RuntimeException("该用户不存在!");
         }
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
 
         //用户获赞
         int likeCount = likeService.getUserLikeCount(userId);
-        model.addAttribute("likeCount",likeCount);
+        model.addAttribute("likeCount", likeCount);
+
+        //关注数量
+        long followeeCount = followService.getFolloweeCount(userId, CommunityConstant.ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+        //粉丝数量
+        long followerCount = followService.getFollowerCount(CommunityConstant.ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount", followerCount);
+        //是否已关注
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) { //先判断是否登录
+            hasFollowed=followService.hasFollowed(hostHolder.getUser().getUserId(),
+                    CommunityConstant.ENTITY_TYPE_USER,userId);
+        }
+        model.addAttribute("hasFollowed",hasFollowed);
 
         return "/site/profile";
     }

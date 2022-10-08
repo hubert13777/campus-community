@@ -1,5 +1,6 @@
 package com.htc.controller;
 
+import com.htc.annotation.LoginRequired;
 import com.htc.entity.Comment;
 import com.htc.service.CommentService;
 import com.htc.tool.HostHolder;
@@ -22,6 +23,7 @@ public class CommentController {
     private HostHolder hostHolder;
 
     @PostMapping("/add/{postId}")
+    @LoginRequired
     public String addComment(@PathVariable("postId") int postId, Comment comment) {
         comment.setUserId(hostHolder.getUser().getUserId());
         comment.setStatus("0"); //状态有效
