@@ -4,6 +4,8 @@ import com.htc.entity.LoginTicket;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
+@Deprecated
+//已废弃
 public interface LoginTicketDao {
     int insertLoginTicket(LoginTicket loginTicket);
 
