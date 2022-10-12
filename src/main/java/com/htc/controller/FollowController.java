@@ -1,8 +1,10 @@
 package com.htc.controller;
 
 import com.htc.annotation.LoginRequired;
+import com.htc.entity.Event;
 import com.htc.entity.Page;
 import com.htc.entity.User;
+import com.htc.event.EventProducer;
 import com.htc.service.FollowService;
 import com.htc.service.UserService;
 import com.htc.tool.CommunityConstant;
@@ -31,6 +33,9 @@ public class FollowController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     //关注某实体
     @PostMapping(path = "/follow")
     @ResponseBody
@@ -39,6 +44,15 @@ public class FollowController {
         User user = hostHolder.getUser();
 
         followService.follow(user.getUserId(), entityType, entityId);
+
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(CommunityConstant.TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getUserId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
 
         return CommunityUtil.getJSONString(0, "已关注!");
     }
@@ -97,14 +111,14 @@ public class FollowController {
         page.setRows((int) followService.getFollowerCount(CommunityConstant.ENTITY_TYPE_USER, userId));
 
         //查询
-        List<Map<String,Object>> userList=followService.getFollowers(userId,page.getOffset(),page.getLimit());
-        if(userList!=null){
-            for(Map<String ,Object> map:userList){
-                User u= (User) map.get("user");
-                map.put("hasFollowed",hasFollowed(u.getUserId()));
+        List<Map<String, Object>> userList = followService.getFollowers(userId, page.getOffset(), page.getLimit());
+        if (userList != null) {
+            for (Map<String, Object> map : userList) {
+                User u = (User) map.get("user");
+                map.put("hasFollowed", hasFollowed(u.getUserId()));
             }
         }
-        model.addAttribute("users",userList);
+        model.addAttribute("users", userList);
 
         return "/site/follower";
     }

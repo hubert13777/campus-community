@@ -63,7 +63,7 @@ public class LikeService {
         if (isMember) {   //已赞
             return 1;
         } else {
-            return 0;
+            return 0;   //没有赞
         }
     }
 

@@ -56,9 +56,13 @@ public class CommentService {
         //更新帖子的评论数量
         if (comment.getEntityType().equals(CommunityConstant.ENTITY_TYPE_POST)) {
             int count = commentDao.selectCountByEntity(comment.getEntityType(), comment.getEntityId());
-            discussPostService.updateCommentCount(comment.getEntityId(),count);
+            discussPostService.updateCommentCount(comment.getEntityId(), count);
         }
 
         return res;
+    }
+
+    public Comment getCommentById(int id) {
+        return commentDao.selectCommentById(id);
     }
 }

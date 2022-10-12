@@ -52,4 +52,11 @@
     <include refid="insert_field"/>
     values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
   </insert>
+  
+  <select id="selectCommentById" resultMap="CommentResultMap">
+    select
+    <include refid="select_field"/>
+    from Comment
+    where id=#{id}
+  </select>
 </mapper>
