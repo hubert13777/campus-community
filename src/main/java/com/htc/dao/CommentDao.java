@@ -22,4 +22,6 @@ public interface CommentDao {
      * @return 新评论的id
      */
     int insertComment(Comment comment);
+
+    Comment selectCommentById(int id);
 }

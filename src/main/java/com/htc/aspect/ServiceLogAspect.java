@@ -16,12 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * AOP 在业务层方法调用时做统一日志记录
+ */
 @Component
 @Aspect
 public class ServiceLogAspect {
     private static final Logger logger = LogManager.getLogger(ServiceLogAspect.class);
 
-    @Pointcut("execution(* com.htc.service.*.*(..)")
+    @Pointcut("execution(* com.htc.service.*.*(..))")
     public void pointcut() {
     }
 
@@ -29,6 +32,9 @@ public class ServiceLogAspect {
     public void before(JoinPoint jp) {
         //格式：用户[10.20.30.40]访问[包.类.方法] -- [时间]
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(attributes==null){   //非Controller层访问service层方法的情况
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String ip=request.getRemoteHost();
         String time=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());

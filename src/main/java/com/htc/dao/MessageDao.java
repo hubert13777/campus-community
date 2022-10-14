@@ -42,4 +42,26 @@ public interface MessageDao {
      * 改变消息已读/未读状态
      */
     int updateStatus(List<Integer> ids,String status);
+
+    /**
+     * 查询某一个主题（点赞、评论、关注）最新的通知
+     */
+    Message selectLatestNotice(int userId,String topic);
+
+    /**
+     * 查询某个主题包含的通知数量
+     */
+    int selectNoticeCount(int userId,String topic);
+
+
+    /**
+     * 查询某个主题中未读的通知的数量
+     * 若topic为null则是查所有的未读数量
+     */
+    int selectNoticeUnreadCount(int userId,String topic);
+
+    /**
+     * 查询某个主题包含的所有通知
+     */
+    List<Message> selectNotices(int userId,String topic,int offset,int rows);
 }

@@ -55,9 +55,10 @@ public class MessageService {
 
     /**
      * 添加一条私信记录
+     *
      * @return 1说明正常
      */
-    public int addMessage(Message message){
+    public int addMessage(Message message) {
         //过滤内容的敏感词
         message.setContent(HtmlUtils.htmlEscape(message.getContent()));
         message.setContent(sensitiveFilter.filter(message.getContent()));
@@ -67,9 +68,38 @@ public class MessageService {
 
     /**
      * 改变私信的未读/已读状态
+     *
      * @return 改变状态的私信条数
      */
-    public int readMessage(List<Integer> ids){
-        return messageDao.updateStatus(ids,"1");
+    public int readMessage(List<Integer> ids) {
+        return messageDao.updateStatus(ids, "1");
+    }
+
+    /**
+     * 查询最新通知
+     */
+    public Message getLatestNotice(int userId, String topic) {
+        return messageDao.selectLatestNotice(userId, topic);
+    }
+
+    /**
+     * 查询某主题的通知数量
+     */
+    public int getNoticeCount(int userId, String topic) {
+        return messageDao.selectNoticeCount(userId, topic);
+    }
+
+    /**
+     * 查询某主题的未读通知数量，topic为null表示所有主题
+     */
+    public int getNoticeUnreadCount(int userId, String topic) {
+        return messageDao.selectNoticeUnreadCount(userId, topic);
+    }
+
+    /**
+     * 查找某一topic的所有通知
+     */
+    public List<Message> getNotices(int userId, String topic, int offset, int rows) {
+        return messageDao.selectNotices(userId, topic, offset, rows);
     }
 }

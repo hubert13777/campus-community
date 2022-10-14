@@ -30,6 +30,18 @@ spring:
             enable: true
   thymeleaf:
     cache: false
+  # 配置Redis
+  redis:
+    database: 9  # 选择索引 9 的数据库
+    host: localhost
+    port: 6379
+  # 配置kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true    #是否自动提交消费者的偏移量
+      auto-commit-interval: 3000  #3秒提交一次
 
 # MyBatis配置
 mybatis:

@@ -29,10 +29,35 @@ public interface CommunityConstant {
     /**
      * 实体类型-帖子
      */
-    String ENTITY_TYPE_POST="1";
+    String ENTITY_TYPE_POST = "1";
 
     /**
      * 实体类型-评论
      */
-    String ENTITY_TYPE_COMMENT="2";
+    String ENTITY_TYPE_COMMENT = "2";
+
+    /**
+     * 实体类型-用户
+     */
+    String ENTITY_TYPE_USER = "3";
+
+    /**
+     * 主题 - 评论
+     */
+    String TOPIC_COMMENT = "comment";
+
+    /**
+     * 主题 - 点赞
+     */
+    String TOPIC_LIKE = "like";
+
+    /**
+     * 主题 - 关注
+     */
+    String TOPIC_FOLLOW = "follow";
+
+    /**
+     * 系统的userId
+     */
+    int SYSTEM_USERID = 0;
 }
