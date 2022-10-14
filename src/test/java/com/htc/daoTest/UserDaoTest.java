@@ -15,15 +15,18 @@ public class UserDaoTest {
     private UserDao userDao;
     
     @Test
-    public void insertTest(){
+    public void insertAdminTest(){
         User user=new User();
-        user.setUsername("zhangsan");
-        user.setPassword("88888888");
-        user.setSalt("abcde");
-        user.setEmail("666@qq.com");
-        user.setType("0");
+        user.setUserId(0);
+        user.setUsername("系统");
+        user.setPassword("iwgmhty4774747");
+        user.setSalt(CommunityUtil.generateUUID().substring(0,5));
+        user.setPassword(CommunityUtil.md5(user.getPassword()+user.getSalt()));
+        user.setType("1");      //管理员
+        user.setStatus("1");    //直接激活
+        // user.setEmail("666@qq.com");
+        user.setHeadImageUrl(String.format("http://images.nowcoder.com/head/%dt.png", (int) (Math.random() * 1000 + 1)));
         user.setCreateTime(new Date());
-        
         userDao.insertUser(user);
     }
     
