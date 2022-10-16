@@ -1,4 +1,12 @@
-# jasypt一定要放在最上面
+# 默认使用开发环境
+spring:
+  profiles:
+    active: dev
+
+---
+# 开发环境
+
+# jasypt一定要放在最上面，用来对隐私数据加密
 jasypt:
   encryptor:
     algorithm: PBEWithMD5AndDES
@@ -6,6 +14,9 @@ jasypt:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 spring:
+  config:
+    activate:
+      on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://42.192.198.61:3306/campus_community?useSSL=false&allowPublicKeyRetrieval=true
@@ -66,3 +77,79 @@ community:
   path:
     domain: http://localhost:8081   # 域名
     upload: D:\Study\Project\Java\campus-community\data\upload
+
+---
+# 测试环境
+
+# jasypt一定要放在最上面，用来对隐私数据加密
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    password: hubert
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/campus_community?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ENC(GGOTOJGcSZBlH5Ma5Epf7ugzG26JV1xo)
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5  # 保持的最小连接数
+    maxActive: 20   # 最大连接数，超过则等待
+    maxWait: 10000   # 获取连接等待超时的时间
+  #   邮箱
+  mail:
+    host: smtp.163.com
+    port: 465
+    default-encoding: UTF-8
+    username: ENC(WLzRmaIn4vLKd4bkQNU343534GgGY2KN+3cWj2MEv7I=)
+    password: ENC(ElO6XYC91joyBi9gfmlZV7F0oHcLdNKddWEN1G6l+Do=)
+    protocol: smtps  # 选择加密协议
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+  thymeleaf:
+    cache: false
+  # 配置Redis
+  redis:
+    database: 9  # 选择索引 9 的数据库
+    host: localhost
+    port: 6379
+    password: ENC(GGOTOJGcSZBlH5Ma5Epf7ugzG26JV1xo)
+  # 配置kafka
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true    #是否自动提交消费者的偏移量
+      auto-commit-interval: 3000  #3秒提交一次
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #映射文件
+  type-aliases-package: com.htc.entity      #实体类包路径
+  configuration:
+    map-underscore-to-camel-case: true      #数据库字段下划线方式自动映射为驼峰方式
+
+# 日志级别设置
+logging:
+  config: classpath:log4j2.yaml
+#  level:
+#    root: warn
+
+server:
+  port: 8081
+  servlet:
+    context-path: /community  # 项目名
+
+# 自定义
+community:
+  path:
+    domain: http://172.17.0.1:8081   # 域名
+    upload: /home/hubert/work/campus-community/data/upload
