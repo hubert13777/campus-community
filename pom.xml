@@ -11,7 +11,10 @@
 	
 	<groupId>com.htc</groupId>
 	<artifactId>campus-community</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.5.1-SNAPSHOT</version>
+	
+	<!--打包为jar包-->
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -74,7 +77,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			<version>2.7.0</version>
 		</dependency>
 		<!--邮箱功能-->
 		<dependency>
@@ -125,12 +127,12 @@
 	</dependencies>
 	
 	<build>
-		<!--<plugins>-->
-		<!--	<plugin>-->
-		<!--		<groupId>org.springframework.boot</groupId>-->
-		<!--		<artifactId>spring-boot-maven-plugin</artifactId>-->
-		<!--	</plugin>-->
-		<!--</plugins>-->
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

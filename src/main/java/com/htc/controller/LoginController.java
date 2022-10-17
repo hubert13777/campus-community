@@ -44,12 +44,12 @@ public class LoginController {
 
     @GetMapping("/register")
     public String getRegisterPage() {
-        return "/site/register";
+        return "site/register";
     }
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "/site/login";
+        return "site/login";
     }
 
     @PostMapping("/register")
@@ -58,12 +58,12 @@ public class LoginController {
         if (map == null || map.isEmpty()) {   //注册成功
             model.addAttribute("msg", "注册成功，已向您的邮箱发送激活邮件，请尽快激活！");
             model.addAttribute("target", "/index");
-            return "/site/operate-result";
+            return "site/operate-result";
         } else {
             model.addAttribute("username_msg", map.get("username_msg"));
             model.addAttribute("password_msg", map.get("password_msg"));
             model.addAttribute("email_msg", map.get("email_msg"));
-            return "/site/register";
+            return "site/register";
         }
     }
 
@@ -81,7 +81,7 @@ public class LoginController {
             model.addAttribute("msg", "激活失败，请检查您的激活码是否正确");
             model.addAttribute("target", "/index");
         }
-        return "/site/operate-result";
+        return "site/operate-result";
     }
 
     @GetMapping("/kaptcha")
@@ -131,7 +131,7 @@ public class LoginController {
         }
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
             model.addAttribute("code_msg", "验证码不正确!");
-            return "/site/login";
+            return "site/login";
         }
 
         //检查账号、密码
@@ -148,7 +148,7 @@ public class LoginController {
             model.addAttribute("username_msg", map.get("username_msg"));
             model.addAttribute("password_msg", map.get("password_msg"));
 
-            return "/site/login";
+            return "site/login";
         }
     }
 

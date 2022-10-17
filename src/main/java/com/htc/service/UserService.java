@@ -116,7 +116,7 @@ public class UserService implements CommunityConstant {
         //激活链接：http://localhost:8081/community/activation/13/code
         String url = domain + contextPath + "/activation/" + user.getUserId() + "/" + user.getCode();
         context.setVariable("url", url);
-        String content = templateEngine.process("/mail/activation", context);
+        String content = templateEngine.process("mail/activation", context);
         mailClient.sendMail(user.getEmail(), "仿牛客网-激活账号", content);
 
         return map;
