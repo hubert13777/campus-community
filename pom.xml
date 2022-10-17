@@ -77,7 +77,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-			<version>2.7.0</version>
 		</dependency>
 		<!--邮箱功能-->
 		<dependency>
@@ -128,12 +127,12 @@
 	</dependencies>
 	
 	<build>
-		<!--<plugins>-->
-		<!--	<plugin>-->
-		<!--		<groupId>org.springframework.boot</groupId>-->
-		<!--		<artifactId>spring-boot-maven-plugin</artifactId>-->
-		<!--	</plugin>-->
-		<!--</plugins>-->
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>

@@ -73,7 +73,7 @@ public class MessageController {
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
 
-        return "/site/letter";
+        return "site/letter";
     }
 
     /**
@@ -113,7 +113,7 @@ public class MessageController {
         //私信的对象
         model.addAttribute("target", getLetterTarget(conversationId));
 
-        return "/site/letter-detail";
+        return "site/letter-detail";
     }
 
     /**
@@ -240,7 +240,7 @@ public class MessageController {
         int noticeUnreadCount = messageService.getNoticeUnreadCount(user.getUserId(), null);
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
-        return "/site/notice";
+        return "site/notice";
     }
 
     @GetMapping(path = "/notice/detail/{topic}")
@@ -282,7 +282,7 @@ public class MessageController {
             messageService.readMessage(ids);
         }
 
-        return "/site/notice-detail";
+        return "site/notice-detail";
     }
 
     //根据Message列表返回对应的id列表

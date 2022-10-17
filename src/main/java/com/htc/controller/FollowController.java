@@ -93,7 +93,7 @@ public class FollowController {
         }
         model.addAttribute("users", userList);
 
-        return "/site/followee";
+        return "site/followee";
     }
 
     //查询某个用户的粉丝列表
@@ -120,7 +120,7 @@ public class FollowController {
         }
         model.addAttribute("users", userList);
 
-        return "/site/follower";
+        return "site/follower";
     }
 
     //工具方法，判断当前用户是否是粉丝

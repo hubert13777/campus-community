@@ -56,7 +56,7 @@ public class UserController {
     @LoginRequired
     @GetMapping("/setting")
     public String getSettingPage() {
-        return "/site/setting";
+        return "site/setting";
     }
 
     /**
@@ -67,14 +67,14 @@ public class UserController {
     public String uploadHeader(MultipartFile image, Model model) {
         if (image == null) {
             model.addAttribute("error", "您还没有选择图片!");
-            return "/site/setting";
+            return "site/setting";
         }
         //重命名文件，避免重复
         String fileName = image.getOriginalFilename();
         String suffix = fileName.substring(fileName.lastIndexOf('.'));  //获取文件后缀
         if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "图片文件后缀不正确!");
-            return "/site/setting";
+            return "site/setting";
         }
         //存入指定路径
         File folder = new File(uploadPath);
@@ -155,6 +155,6 @@ public class UserController {
         }
         model.addAttribute("hasFollowed",hasFollowed);
 
-        return "/site/profile";
+        return "site/profile";
     }
 }

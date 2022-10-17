@@ -55,11 +55,11 @@ public class HomeController {
             }
         }
         model.addAttribute("discussPosts", res);
-        return "/index";
+        return "index";
     }
 
     @GetMapping(path = "/error")
     public String getErrorPage(){
-        return "/error/500";
+        return "error/500";
     }
 }

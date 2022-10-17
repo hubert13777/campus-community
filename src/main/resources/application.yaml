@@ -94,7 +94,7 @@ spring:
       on-profile: test
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/campus_community?useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.91.128:3307/campus_community?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: ENC(GGOTOJGcSZBlH5Ma5Epf7ugzG26JV1xo)
     type: com.alibaba.druid.pool.DruidDataSource
@@ -119,12 +119,12 @@ spring:
   # 配置Redis
   redis:
     database: 9  # 选择索引 9 的数据库
-    host: localhost
+    host: 192.168.91.128
     port: 6379
     password: ENC(GGOTOJGcSZBlH5Ma5Epf7ugzG26JV1xo)
   # 配置kafka
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: 192.168.91.128:9092
     consumer:
       group-id: community-consumer-group
       enable-auto-commit: true    #是否自动提交消费者的偏移量
@@ -151,5 +151,5 @@ server:
 # 自定义
 community:
   path:
-    domain: http://172.17.0.1:8081   # 域名
-    upload: /home/hubert/work/campus-community/data/upload
+    domain: http://192.168.91.128:8081   # 域名
+    upload: /data/upload
